@@ -1,0 +1,87 @@
+name: Generate PDF CV
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Your full name"
+        required: true
+        type: string
+      email:
+        description: "Email address"
+        required: true
+        type: string
+      phone:
+        description: "Phone number"
+        required: true
+        type: string
+      summary:
+        description: "1-2 line summary"
+        required: false
+        type: string
+      education:
+        description: "Education entries (title::summary || ...)"
+        required: true
+        type: string
+      experience:
+        description: "Work experience entries (title::summary || ...)"
+        required: true
+        type: string
+      projects:
+        description: "Project entries (title::summary || ...)"
+        required: true
+        type: string
+      skills:
+        description: "Comma-separated skills"
+        required: true
+        type: string
+      github:
+        description: "GitHub profile URL"
+        required: false
+        type: string
+      linkedin:
+        description: "LinkedIn profile URL"
+        required: false
+        type: string
+      filename:
+        description: "Output filename"
+        required: false
+        default: "cv.pdf"
+        type: string
+
+jobs:
+  build-cv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install reportlab python-dotenv
+
+      - name: Run CV generator
+        run: python cv.py
+        env:
+          INPUT_NAME: ${{ github.event.inputs.name }}
+          INPUT_EMAIL: ${{ github.event.inputs.email }}
+          INPUT_PHONE: ${{ github.event.inputs.phone }}
+          INPUT_SUMMARY: ${{ github.event.inputs.summary }}
+          INPUT_EDUCATION: ${{ github.event.inputs.education }}
+          INPUT_EXPERIENCE: ${{ github.event.inputs.experience }}
+          INPUT_PROJECTS: ${{ github.event.inputs.projects }}
+          INPUT_SKILLS: ${{ github.event.inputs.skills }}
+          INPUT_FILENAME: ${{ github.event.inputs.filename }}
+          INPUT_GITHUB: ${{ github.event.inputs.github }}
+          INPUT_LINKEDIN: ${{ github.event.inputs.linkedin }}
+
+      - name: Upload generated CV
+        uses: actions/upload-artifact@v4
+        with:
+          name: Generated-CV
+          path: ${{ github.event.inputs.filename }}
