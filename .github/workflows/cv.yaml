@@ -11,10 +11,6 @@ on:
         description: "Email address"
         required: true
         type: string
-      phone:
-        description: "Phone number"
-        required: true
-        type: string
       summary:
         description: "1-2 line summary"
         required: false
@@ -42,11 +38,6 @@ on:
       linkedin:
         description: "LinkedIn profile URL"
         required: false
-        type: string
-      filename:
-        description: "Output filename"
-        required: false
-        default: "cv.pdf"
         type: string
 
 jobs:
