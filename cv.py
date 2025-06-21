@@ -38,10 +38,11 @@ education = os.getenv("INPUT_EDUCATION", "")
 experience = os.getenv("INPUT_EXPERIENCE", "")
 projects = os.getenv("INPUT_PROJECTS", "")
 skills = os.getenv("INPUT_SKILLS", "")
-filename = os.getenv("INPUT_FILENAME", "cv.pdf")
 profile_image = os.getenv("INPUT_PROFILE_IMAGE", "")
 github_url = os.getenv("INPUT_GITHUB", "")
 linkedin_url = os.getenv("INPUT_LINKEDIN", "")
+
+filename =  "cv.pdf"
 
 
 # Setup document
@@ -87,7 +88,7 @@ if github_url:
 if linkedin_url:
     social_links.append(f"🔗 LinkedIn")
 right_links = Paragraph(" &nbsp; ".join(social_links), styles["HeaderLink"])
-contact_line = Paragraph(f"{email} | {phone}", styles["HeaderContact"])
+contact_line = Paragraph(f"{email}", styles["HeaderContact"])
 
 # Combine image + name/social into a nested table
 text_table = Table(
